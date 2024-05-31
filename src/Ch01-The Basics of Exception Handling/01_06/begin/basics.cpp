@@ -8,6 +8,9 @@ const string readConfigFile(const string& filename)
 {
     ifstream file(filename);
 
+    if (! file.good())
+        throw runtime_error("Failed to open config file.");
+
     string line;
     string text;
     while (getline(file, line)) 
@@ -21,9 +24,17 @@ const string readConfigFile(const string& filename)
 
 int main() 
 {    
-    cout << "Reading configuration:" << endl;
-    string text = readConfigFile("configuration.txt");
-    cout << text;
+    try
+    {
+        cout << "Reading configuration:" << endl;
+        string text = readConfigFile("configuration.txt");
+        cout << text;
+    }
+    catch(const exception& e)
+    {
+        cerr << "Error: " << e.what() << endl;
+        return -1;
+    }
     
     return 0;
 }
